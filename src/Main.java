@@ -58,6 +58,13 @@ public class Main {
     {
         // TODO Test
         System.out.println("TODO Test in " + oStorage.StorageName());
+        oStorage.store("3", "3");
+        List<String> keyList = oStorage.getKeys();
+        for(var key : keyList)
+        {
+            System.out.println("--Key name:" + key);
+        }
+        System.out.println("Value of key 3:" + oStorage.getValue("3"));
     }
 
     protected static void DoBenchmark(KeyValueInterface oStorage)

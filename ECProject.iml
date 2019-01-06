@@ -7,6 +7,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="com.amazonaws:aws-java-sdk-s3:1.11.475" level="project" />
   </component>
 </module>
-
