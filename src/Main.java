@@ -58,9 +58,9 @@ public class Main {
     {
         // TODO Test
         System.out.println("TODO Test in " + oStorage.StorageName());
-        oStorage.store("3", "3");
+        oStorage.store("4", "4");
         List<String> keyList = oStorage.getKeys();
-        for(var key : keyList)
+        for(String key : keyList)
         {
             System.out.println("--Key name:" + key);
         }
