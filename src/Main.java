@@ -60,7 +60,7 @@ public class Main {
         System.out.println("TODO Test in " + oStorage.StorageName());
         oStorage.store("3", "3");
         List<String> keyList = oStorage.getKeys();
-        for(var key : keyList)
+        for(String key : keyList)
         {
             System.out.println("--Key name:" + key);
         }
