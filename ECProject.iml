@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="com.amazonaws:aws-java-sdk-s3:1.11.475" level="project" />
+    <orderEntry type="library" name="com.google.cloud:google-cloud-storage:1.59.0" level="project" />
   </component>
 </module>

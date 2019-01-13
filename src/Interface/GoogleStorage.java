@@ -31,7 +31,7 @@ public class GoogleStorage implements KeyValueInterface, Serializable {
         Bucket bucket = storage.get( bucketName);
 
         Page<Blob> blobs = bucket.list();
-        List<String> keys = new ArrayList<>()2;
+        List<String> keys = new ArrayList<>();
         for (Blob blob : blobs.iterateAll()) {
             // do something with the blob
             keys.add(blob.getName());
