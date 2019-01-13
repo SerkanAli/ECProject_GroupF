@@ -34,42 +34,7 @@ public class AmazonStorage  implements KeyValueInterface, Serializable {
     }
     @Override
     public Object getValue(String key) {
-//TODO not working yet
-        Object value = null;
-        try {
-            S3Object o = s3Client.getObject(bucketName, key);
-            InputStream in = o.getObjectContent();
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-        Object line = null;
-        while ((line = reader.readLine()) != null) {
-           // System.out.println(value);
-
-        }
-          /*  byte[] buf = new byte[1024];
-            File file = File.createTempFile("aws-java-sdk-", ".txt");
-            file.deleteOnExit();
-            OutputStream out = new FileOutputStream(file);
-            int count;
-            while( (count = in.read(buf)) != -1)
-            {
-                if( Thread.interrupted() )
-                {
-                    throw new InterruptedException();
-                }
-                out.write(buf, 0, count);
-            }
-            out.close();
-            in.close();
-            FileInputStream fi = new FileInputStream(file);
-            ObjectInputStream oi = new ObjectInputStream(fi);
-            value = oi.readObject();
-            oi.close();*/
-        } catch (IOException  e) {
-            System.err.println("Retrieving value for key " + key + " failed.");
-            e.printStackTrace();
-        }
-        return value;
+        return  s3Client.getObject(bucketName, key);
     }
 
     @Override

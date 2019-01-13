@@ -10,13 +10,17 @@ import java.util.List;
 
 public class GoogleStorage implements KeyValueInterface, Serializable {
 
-    String bucketName = "ec-assignment";
+    private static final String bucketName = "ec-assignment";
+
+    private  Storage storage;
+
+    public GoogleStorage(){
+        // Instantiate a Google Cloud Storage client
+        storage = StorageOptions.getDefaultInstance().getService();
+    }
 
     @Override
     public Object getValue(String key) {
-        // Instantiate a Google Cloud Storage client
-        Storage storage = StorageOptions.getDefaultInstance().getService();
-
         // Get specific file from specified bucket
         Blob blob = storage.get(BlobId.of(bucketName, key));
 
@@ -25,8 +29,6 @@ public class GoogleStorage implements KeyValueInterface, Serializable {
 
     @Override
     public List<String> getKeys() {
-        Storage storage = StorageOptions.getDefaultInstance().getService();
-
         // Creates the new bucket
         Bucket bucket = storage.get( bucketName);
 
@@ -42,7 +44,6 @@ public class GoogleStorage implements KeyValueInterface, Serializable {
 
     @Override
     public void store(String key, Serializable value) {
-        Storage storage = StorageOptions.getDefaultInstance().getService();
         BlobId blobId = BlobId.of(bucketName, key);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/plain").build();
         try {
@@ -54,8 +55,6 @@ public class GoogleStorage implements KeyValueInterface, Serializable {
 
     @Override
     public void delete(String key) {
-        Storage storage = StorageOptions.getDefaultInstance().getService();
-
         BlobId blobId = BlobId.of(bucketName, key);
         boolean deleted = storage.delete(blobId);
         if (deleted) {
