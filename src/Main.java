@@ -3,6 +3,8 @@ import Interface.GoogleStorage;
 import Interface.KeyValueInterface;
 
 import java.util.*;
+import java.io.*;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
@@ -56,20 +58,59 @@ public class Main {
 
     protected static void DoTest(KeyValueInterface oStorage)
     {
-        // TODO Test
+       /* // TODO Test
         System.out.println("TODO Test in " + oStorage.StorageName());
-        oStorage.store("4", "4");
-        List<String> keyList = oStorage.getKeys();
+        oStorage.store("4", "4");*/
+     /*   List<String> keyList = oStorage.getKeys();
         for(String key : keyList)
         {
             System.out.println("--Key name:" + key);
-        }
+        }*/
         System.out.println("Value of key 3:" + oStorage.getValue("3"));
     }
 
     protected static void DoBenchmark(KeyValueInterface oStorage)
     {
-        //TODO Benchmark
-        System.out.println("TODO Benchmark in " + oStorage.StorageName());
+        System.out.println("Not working yet");
+        if(true)
+            return;
+        File filedirectory = new File("/path/to/directory");
+        String[] directories = filedirectory.list(new FilenameFilter() {
+            @Override
+            public boolean accept(File current, String name) {
+                return new File(current, name).isDirectory();
+            }
+        });
+        for(String directory : directories)
+        {
+            oStorage.NewBenchmark(directory);
+            File folder = new File(directory);
+            File[] listOfFiles = folder.listFiles();
+            for (File file : listOfFiles) {
+                if (file.isFile()) {
+                    oStorage.store("", file);
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            WriteResultstoFile(oStorage.GetBenchmarkResults());
+        }
+
+
+
+    }
+
+
+    protected static void WriteResultstoFile(KeyValueInterface.ResultsBenchmark oBench)
+    {
+        List<Long> Totaltime = oBench.GetTotalTime();
+        List<Long> Lantecy = oBench.GetLatency();
+        List<Double> Throughput = oBench.GetThroughput();
+        String BenchName = oBench.Name();
+
+        //TODO print the Results in a table file
     }
 }

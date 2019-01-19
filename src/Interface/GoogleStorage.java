@@ -3,8 +3,11 @@ package Interface;
 import com.google.api.gax.paging.Page;
 import com.google.cloud.storage.*;
 
+import java.io.File;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +23,17 @@ public class GoogleStorage implements KeyValueInterface, Serializable {
     }
 
     @Override
-    public Object getValue(String key) {
+    public File getValue(String key) {
+        oBench.Begin();
         // Get specific file from specified bucket
         Blob blob = storage.get(BlobId.of(bucketName, key));
-
-        return blob;
+        oBench.Latency();
+        oBench.Size((long) blob.getContent().length);
+        // Download File to Local space
+        File localFile = new File(DirectoryPath + key);
+        blob.downloadTo(localFile.toPath());
+        oBench.End();
+        return localFile;
     }
 
     @Override
@@ -43,11 +52,11 @@ public class GoogleStorage implements KeyValueInterface, Serializable {
     }
 
     @Override
-    public void store(String key, Serializable value) {
+    public void store(String key, File value) {
         BlobId blobId = BlobId.of(bucketName, key);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/plain").build();
         try {
-            Blob blob = storage.create(blobInfo, value.toString().getBytes());
+            Blob blob = storage.create(blobInfo, Files.readAllBytes(value.toPath()));
         } catch (Exception e) {
             e.printStackTrace();
         }
