@@ -3,6 +3,7 @@ package Interface;
 import com.google.api.services.storage.Storage;
 import org.apache.commons.io.FileUtils;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -16,13 +17,13 @@ import java.util.List;
  */
 public interface KeyValueInterface {
 
-    String GetFilePath = System.getProperty("user.dir")+"/DataSets";;
-    String DownloadPath = System.getProperty("user.dir")+"/DownloadData";
+    String GetFilePath = System.getProperty("user.dir")+"/DataSets";
+    String DownloadPath = System.getProperty("user.dir")+"/DownloadData/";
 
     /**
      * returns a value for a given key
-     * @param key
-     * @return
+     * @param key to get value
+     * @return File
      */
     File getValue(String key);
 
@@ -33,14 +34,14 @@ public interface KeyValueInterface {
 
     /**
      * stores a key value pair
-     * @param key
-     * @param value
+     * @param key stored indetifier
+     * @param value stored data
      */
     void store(String key, File value);
 
     /**
      * deletes the key value pair for a given key
-     * @param key
+     * @param key which should delete
      */
     void delete(String key);
 
@@ -55,7 +56,7 @@ public interface KeyValueInterface {
         private List<Long> nTotalTime;
         private List<Long> nLatency;
         private List<Double> nThroughput;
-        protected String sBenchmarkName;
+        private String sBenchmarkName;
 
         public List<Long> GetTotalTime() { return nTotalTime;}
         public List<Long> GetLatency() { return nLatency;}
@@ -114,7 +115,7 @@ public interface KeyValueInterface {
                     logs.append("\n").append(nTotalTime.get(i)).append("\t").append(nLatency.get(i)).append("\t").append(nThroughput.get(i));
                 }
 
-                FileUtils.writeStringToFile(new File("logs/"+this.sBenchmarkName+".txt"),logs.toString(), "utf8", true);
+                FileUtils.writeStringToFile(new File("logs/"+this.sBenchmarkName+".csv"),logs.toString(), "utf8", true);
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -62,29 +62,33 @@ public class AmazonStorage  implements KeyValueInterface, Serializable {
 
     @Override
     public List<String> getKeys() {
+        oBench.Begin();
         List<String> keyList = new ArrayList<String>();
         ListObjectsV2Result result = s3Client.listObjectsV2(bucketName);
         List<S3ObjectSummary> objects = result.getObjectSummaries();
         for (S3ObjectSummary os: objects) {
             keyList.add(os.getKey());
         }
+        oBench.End();
         return keyList;
     }
 
     @Override
     public void store(String key, File value) {
-
+            oBench.Begin();
             PutObjectResult ovalue = s3Client.putObject(bucketName, key, value);
+            oBench.End();
     }
 
     @Override
     public void delete(String key) {
+        oBench.Begin();
         try {
             s3Client.deleteObject(bucketName, key);
         } catch (AmazonServiceException e) {
             System.err.println(e.getErrorMessage());
         }
-
+        oBench.End();
     }
 
     @Override

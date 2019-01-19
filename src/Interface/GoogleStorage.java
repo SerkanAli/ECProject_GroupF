@@ -39,20 +39,21 @@ public class GoogleStorage implements KeyValueInterface, Serializable {
     @Override
     public List<String> getKeys() {
         // Creates the new bucket
+        oBench.Begin();
         Bucket bucket = storage.get( bucketName);
-
         Page<Blob> blobs = bucket.list();
         List<String> keys = new ArrayList<>();
         for (Blob blob : blobs.iterateAll()) {
             // do something with the blob
             keys.add(blob.getName());
         }
-
+        oBench.End();
         return keys;
     }
 
     @Override
     public void store(String key, File value) {
+        oBench.Begin();
         BlobId blobId = BlobId.of(bucketName, key);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/plain").build();
         try {
@@ -60,17 +61,15 @@ public class GoogleStorage implements KeyValueInterface, Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        oBench.End();
     }
 
     @Override
     public void delete(String key) {
+        oBench.Begin();
         BlobId blobId = BlobId.of(bucketName, key);
-        boolean deleted = storage.delete(blobId);
-        if (deleted) {
-            // the blob was deleted
-        } else {
-            // the blob was not found
-        }
+        storage.delete(blobId);
+        oBench.End();
     }
 
     @Override
