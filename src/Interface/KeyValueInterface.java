@@ -1,8 +1,10 @@
 package Interface;
 
 import com.google.api.services.storage.Storage;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -99,7 +101,23 @@ public interface KeyValueInterface {
                 nThroughput.clear();
         }
 
+        public void writeResults(){
+            try {
+                StringBuilder logs = new StringBuilder();
 
+                logs.append("\n").append("Total time").append("\t").append("Latency").append("\t").append("Throughput");
+
+                int size = nTotalTime.size();
+
+                for(int i=0 ; i<size;i++){
+                    logs.append("\n").append(nTotalTime.get(i)).append("\t").append(nLatency.get(i)).append("\t").append(nThroughput.get(i));
+                }
+
+                FileUtils.writeStringToFile(new File("logs/"+this.sBenchmarkName+".txt"),logs.toString(), "utf8", true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     ResultsBenchmark oBench = new ResultsBenchmark();
