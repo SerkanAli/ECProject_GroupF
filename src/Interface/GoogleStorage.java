@@ -30,7 +30,7 @@ public class GoogleStorage implements KeyValueInterface, Serializable {
         oBench.Latency();
         oBench.Size((long) blob.getContent().length);
         // Download File to Local space
-        File localFile = new File(DirectoryPath + key);
+        File localFile = new File(DownloadPath + key);
         blob.downloadTo(localFile.toPath());
         oBench.End();
         return localFile;

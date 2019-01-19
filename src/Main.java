@@ -58,23 +58,20 @@ public class Main {
 
     protected static void DoTest(KeyValueInterface oStorage)
     {
-       /* // TODO Test
-        System.out.println("TODO Test in " + oStorage.StorageName());
-        oStorage.store("4", "4");*/
-     /*   List<String> keyList = oStorage.getKeys();
-        for(String key : keyList)
-        {
-            System.out.println("--Key name:" + key);
-        }*/
-        System.out.println("Value of key 3:" + oStorage.getValue("3"));
+        var KeyList = oStorage.getKeys();
+        System.out.println(KeyList);
     }
 
     protected static void DoBenchmark(KeyValueInterface oStorage)
     {
-        System.out.println("Not working yet");
-        if(true)
-            return;
-        File filedirectory = new File("/path/to/directory");
+       // System.out.println("Not working yet");
+        //if(true)
+           // return;
+
+        /**Begin with the first Part of the Benchmark
+         * This goes trough every dataset and Store all files
+         * */
+        File filedirectory = new File(oStorage.GetFilePath);
         String[] directories = filedirectory.list(new FilenameFilter() {
             @Override
             public boolean accept(File current, String name) {
@@ -83,12 +80,12 @@ public class Main {
         });
         for(String directory : directories)
         {
-            oStorage.NewBenchmark(directory);
-            File folder = new File(directory);
+            oStorage.NewBenchmark("Store dataset "+directory);
+            File folder = new File(oStorage.GetFilePath+"/"+directory);
             File[] listOfFiles = folder.listFiles();
             for (File file : listOfFiles) {
                 if (file.isFile()) {
-                    oStorage.store("", file);
+                    oStorage.store(directory + "/" + file.getName(), file);
                     try {
                         TimeUnit.SECONDS.sleep(1);
                     } catch (InterruptedException e) {
@@ -97,9 +94,44 @@ public class Main {
                 }
             }
             WriteResultstoFile(oStorage.GetBenchmarkResults());
+            try {
+                TimeUnit.MINUTES.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
+        /**Second Part of the Benchmark
+         * Getting all keys, to get a good result, this method is called 30 times
+         * */
+        oStorage.NewBenchmark("GetKeys");
+        List<String> KeyList = new ArrayList<>();
+        for(int Index = 0; Index < 30 ; Index++) {
+            KeyList = oStorage.getKeys();
+            try {
+                TimeUnit.SECONDS.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        WriteResultstoFile(oStorage.GetBenchmarkResults());
 
+
+        /**Third Part of the Benchmark
+         * Download all files again to the local store
+         * */
+        
+
+
+        /**Last Part of the Benchmark
+         * Deleting all files in the Cloud
+         * */
+
+
+    }
+
+    protected static void BenchmarkAllfiles(boolean isStoring)
+    {
 
     }
 

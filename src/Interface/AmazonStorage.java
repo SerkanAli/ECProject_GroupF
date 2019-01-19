@@ -40,7 +40,7 @@ public class AmazonStorage  implements KeyValueInterface, Serializable {
         // Download File to Local space
         InputStream stream = o.getObjectContent();
         OutputStream outputStream = null;
-        File localFile = new File(DirectoryPath + key);
+        File localFile = new File(DownloadPath + key);
         try {
             outputStream = new FileOutputStream(localFile);
             byte[] buffer = new byte[1024];

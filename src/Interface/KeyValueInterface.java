@@ -14,7 +14,8 @@ import java.util.List;
  */
 public interface KeyValueInterface {
 
-    String DirectoryPath = null;
+    String GetFilePath = System.getProperty("user.dir")+"/DataSets";;
+    String DownloadPath = System.getProperty("user.dir")+"/DownloadData";
 
     /**
      * returns a value for a given key
