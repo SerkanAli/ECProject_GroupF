@@ -107,12 +107,23 @@ public interface KeyValueInterface {
             try {
                 StringBuilder logs = new StringBuilder();
 
-                logs.append("\n").append("Total time").append(",").append("Latency").append(",").append("Throughput");
+                logs.append("Total time");
+                if(bSetLatency)
+                    logs.append(",").append("Latency");
+                if(bSetSize)
+                    logs.append(",").append("Throughput");
 
                 int size = nTotalTime.size();
 
+
                 for(int i=0 ; i<size;i++){
-                    logs.append("\n").append(nTotalTime.get(i)).append(",").append(nLatency.get(i)).append(",").append(nThroughput.get(i));
+                    logs.append("\n").append(nTotalTime.get(i));
+                    if(bSetLatency) {
+                        logs.append(",").append(nLatency.get(i));
+                    }
+                    if(bSetSize) {
+                        logs.append(",").append(nThroughput.get(i));
+                    }
                 }
 
                 FileUtils.writeStringToFile(new File("logs/"+this.sBenchmarkName+".csv"),logs.toString(), "utf8", true);
@@ -120,6 +131,8 @@ public interface KeyValueInterface {
                 e.printStackTrace();
             }
         }
+
+
     }
 
     ResultsBenchmark oBench = new ResultsBenchmark();

@@ -69,11 +69,18 @@ public class Main {
     private static void DoTest(KeyValueInterface oStorage)
     {
         //System.out.println(oStorage.getKeys());
-        oStorage.NewBenchmark("test");
+     /*   oStorage.NewBenchmark("nocheintest");
         oStorage.getValue("Dataset2/1 (2).docx");
         oStorage.getValue("Dataset2/1 (6).pdf");
         oStorage.getValue("Dataset2/4 (4).mp3");
         oStorage.GetBenchmarkResults().writeResults();
+        oStorage.GetBenchmarkResults().writeAvg();*/
+        var KeyList = oStorage.getKeys();
+        for(String Key : KeyList)
+        {
+            oStorage.delete(Key);
+            System.out.println("-->Delete key: "+ Key);
+        }
     }
 
     private static void DoBenchmark(KeyValueInterface oStorage) throws InterruptedException {
@@ -108,7 +115,6 @@ public class Main {
             System.out.println("--> Dataset finished, sleep");
             TimeUnit.MINUTES.sleep(1);
         }
-
         /**Second Part of the Benchmark
          * Getting all keys, to get a good result, this method is called 30 times
          * */
@@ -135,10 +141,10 @@ public class Main {
             {
                 if(!firstKey) {
                     oStorage.GetBenchmarkResults().writeResults();
-                    firstKey = false;
                     System.out.println("--> Dataset finished, sleeps");
                     TimeUnit.MINUTES.sleep(1);
                 }
+                firstKey = false;
                 directory = Key.split("/")[0];
                 oStorage.NewBenchmark("Get value from dataset "+ directory);
                 System.out.println("-->Download dataset:" + directory);
@@ -148,7 +154,6 @@ public class Main {
             TimeUnit.SECONDS.sleep(1);
         }
         oStorage.GetBenchmarkResults().writeResults();
-
 
         /**Last Part of the Benchmark
          * Deleting all files in the Cloud
