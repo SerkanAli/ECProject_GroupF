@@ -107,12 +107,12 @@ public interface KeyValueInterface {
             try {
                 StringBuilder logs = new StringBuilder();
 
-                logs.append("\n").append("Total time").append("\t").append("Latency").append("\t").append("Throughput");
+                logs.append("\n").append("Total time").append(",").append("Latency").append(",").append("Throughput");
 
                 int size = nTotalTime.size();
 
                 for(int i=0 ; i<size;i++){
-                    logs.append("\n").append(nTotalTime.get(i)).append("\t").append(nLatency.get(i)).append("\t").append(nThroughput.get(i));
+                    logs.append("\n").append(nTotalTime.get(i)).append(",").append(nLatency.get(i)).append(",").append(nThroughput.get(i));
                 }
 
                 FileUtils.writeStringToFile(new File("logs/"+this.sBenchmarkName+".csv"),logs.toString(), "utf8", true);
